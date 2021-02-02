@@ -17,5 +17,7 @@ INSTANT_TRADE_CHAT_ID=<telegram-chat-id>
 
 2. Run `yarn` to install dependencies
 
-3. Run `yarn run start` to start server
+3. Run `yarn run start` to start server locally
+
+4. Run `pm2 start npm -- run start-prod` to run pm2 daemon
 

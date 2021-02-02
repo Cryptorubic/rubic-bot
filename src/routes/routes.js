@@ -2,7 +2,7 @@ import {BridgeBot} from "../bots";
 import InstantTradeBot from "../bots/instant-trade-bot";
 
 export default app => {
-    app.post('/bridgeSwaps', async (req, res) => {
+    app.post('/bridgeSwap', async (req, res) => {
         const bot = new BridgeBot(req.body);
         activateBot(bot, res);
     });
