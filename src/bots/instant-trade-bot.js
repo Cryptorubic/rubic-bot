@@ -5,12 +5,12 @@ class InstantTradeBot extends Bot {
 
     chatId = process.env.INSTANT_TRADE_CHAT_ID;
 
-    constructor(request) {
-        super(request, process.env.INSTANT_TRADE_BOT_TOKEN);
+    constructor() {
+        super(process.env.INSTANT_TRADE_BOT_TOKEN);
     }
 
-    async sendNotification() {
-        const { walletAddress, txHash, amountFrom, amountTo, symbolFrom, symbolTo } = this.request;
+    async sendNotification(request) {
+        const { walletAddress, txHash, amountFrom, amountTo, symbolFrom, symbolTo } = request;
 
         const scannerAddressUrl = networks[0].scannerAddressBaseUrl + walletAddress;
         const scannerTxUrl = networks[0].scannerTxBaseUrl + txHash;

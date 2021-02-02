@@ -1,15 +1,12 @@
-import {BridgeBot} from "../bots";
-import InstantTradeBot from "../bots/instant-trade-bot";
+import {bridgeBot, instantTradesBot} from "../bots";
 
 export default app => {
     app.post('/bridgeSwap', async (req, res) => {
-        const bot = new BridgeBot(req.body);
-        activateBot(bot, res);
+        activateBot(bridgeBot, req.body, res);
     });
 
     app.post('/instantTrade', async (req, res) => {
-        const bot = new InstantTradeBot(req.body);
-        activateBot(bot, res);
+        activateBot(instantTradesBot, req.body, res);
     });
 
     app.post('/orderBook', async (req, res) => {
@@ -17,9 +14,9 @@ export default app => {
     });
 }
 
-async function activateBot(bot, res) {
+async function activateBot(bot, request, res) {
     try {
-        await bot.sendNotification();
+        await bot.sendNotification(request);
         res.send();
     } catch (e) {
         console.log(e);

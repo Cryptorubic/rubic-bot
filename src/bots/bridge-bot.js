@@ -5,12 +5,12 @@ class BridgeBot extends Bot {
 
     chatId = process.env.BRIDGE_CHAT_ID;
 
-    constructor(request) {
-        super(request, process.env.BRIDGE_BOT_TOKEN);
+    constructor() {
+        super(process.env.BRIDGE_BOT_TOKEN);
     }
 
-    async sendNotification() {
-        const { binanceId, walletAddress, amount, network, symbol, ethSymbol } = this.request;
+    async sendNotification(request) {
+        const { binanceId, walletAddress, amount, network, symbol, ethSymbol } = request;
         const fromNetwork = networks.find(nw => nw.name === network).label;
         const toNetwork = networks.find(nw => nw.name !== network).label;
         const scannerUrl = networks.find(nw => nw.name === network).scannerAddressBaseUrl + walletAddress;
