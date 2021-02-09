@@ -5,6 +5,9 @@ export default {
     url: 'https://api.coingecko.com/api/v3/coins/markets',
     tokens: JSON.parse(fs.readFileSync(process.cwd() + '/src/core/coin-gecko/tokens.json', 'utf-8')),
     getTokenId(tokenSymbol) {
+        if (tokenSymbol.toLowerCase() === 'rbc') {
+            return 'rubic';
+        }
         return this.tokens.find(token => token.symbol === tokenSymbol)?.id;
     },
     async getAllPrices(tokenSymbol) {

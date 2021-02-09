@@ -3,6 +3,8 @@ import Bot from './bot';
 
 class InstantTradeBot extends Bot {
 
+    bulletEmoji = '\ud83d\udfe2';
+
     chatId = process.env.INSTANT_TRADE_CHAT_ID;
 
     constructor() {
@@ -18,20 +20,30 @@ class InstantTradeBot extends Bot {
         const priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
 
         const message = `
-            New instant trade swap was created by ${scannerAddressUrl}\n
-            ${amountFrom} ${symbolFrom} -> ${amountTo} ${symbolTo}\n
-            ${priceInfo.usdPrice ?
-            'USD amount: ~' + priceInfo.usdPrice * amountFrom + '$' :
-            'Can\'t find USD price for token ' + symbolFrom
-        }\n
-            ${priceInfo.ethPrice ?
-            'ETH amount: ~' + priceInfo.ethPrice * amountFrom :
-            'Can\'t find ETH price for token ' + symbolFrom
-        }\n
-            Transaction: ${scannerTxUrl}
+New instant trade swap was created by
+<a href="${scannerAddressUrl}">\ud83d\udcf6 ${walletAddress}</a> 
+
+${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amountFrom) : ''}
+
+<code>${amountFrom} ${symbolFrom} -> ${amountTo} ${symbolTo}</code>
+${priceInfo.usdPrice ?
+    'USD amount: ~' + '<b>' + priceInfo.usdPrice * amountFrom + '</b>' + '$' :
+    'Can\'t find USD price for token ' + symbolFrom
+}
+${priceInfo.ethPrice ?
+    'ETH amount: ~' + '<b>' + priceInfo.ethPrice * amountFrom + '</b>' :
+    'Can\'t find ETH price for token ' + symbolFrom
+}
+
+<a href="${scannerTxUrl}">\ud83d\udcb4 More info</a>
         `;
 
-        return this.bot.sendMessage(this.chatId, message);
+        return this.sendMessage(this.chatId, message);
+    }
+
+    getFormattedBullets(ethValue) {
+        const bulletsNumber = Math.round(ethValue);
+        return this.bulletEmoji.repeat(bulletsNumber);
     }
 }
 
