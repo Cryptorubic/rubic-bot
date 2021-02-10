@@ -42,7 +42,7 @@ ${priceInfo.ethPrice ?
     }
 
     getFormattedBullets(ethValue) {
-        const bulletsNumber = Math.round(ethValue);
+        const bulletsNumber = Math.floor(ethValue) + 1;
         return this.bulletEmoji.repeat(bulletsNumber);
     }
 }

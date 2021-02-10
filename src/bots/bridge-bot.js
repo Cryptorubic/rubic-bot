@@ -41,7 +41,7 @@ ${priceInfo.ethPrice ?
     }
 
     getFormattedBullets(ethValue, network) {
-        const bulletsNumber = Math.round(ethValue);
+        const bulletsNumber = Math.floor(ethValue) + 1;
         return network.bridgeEmoji.repeat(bulletsNumber);
     }
 }
