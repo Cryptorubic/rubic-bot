@@ -5,8 +5,8 @@ class BridgeBot extends Bot {
 
     chatId = process.env.BRIDGE_CHAT_ID;
 
-    constructor() {
-        super(process.env.BRIDGE_BOT_TOKEN);
+    constructor(bot) {
+        super(bot);
     }
 
     async sendNotification(request) {

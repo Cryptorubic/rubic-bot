@@ -1,50 +1,41 @@
 import { networks, coinGeckoApi} from "../core";
 import Bot from './bot';
 
-class InstantTradeBot extends Bot {
+class OrderBookCreationBot extends Bot {
 
-    uniSwapEmoji = '\ud83e\udd84';
-    oneInchEmoji = '\ud83d\udc34'
+    chatId = process.env.ORDER_BOOK_CHAT_ID;
 
-    chatId = process.env.INSTANT_TRADE_CHAT_ID;
+    openBookEmoji = '\ud83d\udcd6';
 
     constructor(bot) {
         super(bot);
     }
 
     async sendNotification(request) {
-        let { blockchain, provider, walletAddress, txHash, amountFrom, amountTo, symbolFrom, symbolTo } = request;
+        let { blockchain, walletAddress, txHash, link, amountFrom, amountTo, symbolFrom, symbolTo } = request;
 
         const network = networks.find(nw => nw.name === blockchain);
         const scannerAddressUrl = network.scannerAddressBaseUrl + walletAddress;
         const scannerTxUrl = network.scannerTxBaseUrl + txHash;
 
         const priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
-        let providerEmoji = this.oneInchEmoji;
-
-        if (provider === 'UniSwap') {
-            providerEmoji = this.uniSwapEmoji;
-        } else {
-            provider = 'OneInch';
-        }
-
         const message = `
-New instant trade swap was created by
-<a href="${scannerAddressUrl}">\ud83d\udcf6 ${walletAddress}</a> 
-with <b>${provider}</b> ${providerEmoji}
+${this.openBookEmoji} New <a href="${link}">order book</a> swap was created!
+ 
+Created by <a href="${scannerAddressUrl}">\ud83d\udcf6 ${walletAddress}</a> 
 in <b>${network.label}</b>
 
 ${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amountFrom, network) : ''}
 
 <code>${amountFrom} ${symbolFrom} -> ${amountTo} ${symbolTo}</code>
 ${priceInfo.usdPrice ?
-    'USD amount: ~' + '<b>' + priceInfo.usdPrice * amountFrom + '</b>' + '$' :
-    'Can\'t find USD price for token ' + symbolFrom
-}
+            'USD from amount: ~' + '<b>' + priceInfo.usdPrice * amountFrom + '</b>' + '$' :
+            'Can\'t find USD price for token ' + symbolFrom
+        }
 ${priceInfo.ethPrice ?
-    'ETH amount: ~' + '<b>' + priceInfo.ethPrice * amountFrom + '</b>' :
-    'Can\'t find ETH price for token ' + symbolFrom
-}
+            'ETH from amount: ~' + '<b>' + priceInfo.ethPrice * amountFrom + '</b>' :
+            'Can\'t find ETH price for token ' + symbolFrom
+        }
 
 <a href="${scannerTxUrl}">\ud83d\udcb4 More info</a>
         `;
@@ -58,4 +49,4 @@ ${priceInfo.ethPrice ?
     }
 }
 
-export default InstantTradeBot;
+export default OrderBookCreationBot;

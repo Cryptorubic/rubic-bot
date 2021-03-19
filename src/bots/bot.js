@@ -1,8 +1,6 @@
-import TelegramBot from "node-telegram-bot-api";
-
 class Bot {
-    constructor(token) {
-        this.bot = new TelegramBot(token, {polling: true});
+    constructor(bot) {
+        this.bot = bot;
     }
 
     async sendNotification(request) { }

@@ -13,5 +13,12 @@ export default [
         scannerAddressBaseUrl: 'https://bscscan.com/address/',
         scannerTxBaseUrl: 'https://bscscan.com/tx/',
         bridgeEmoji: '\ud83d\udfe0'
+    },
+    {
+        name: 'MATIC',
+        label: 'Matic chain',
+        scannerAddressBaseUrl: 'https://bscscan.com/address/',
+        scannerTxBaseUrl: 'https://bscscan.com/tx/',
+        bridgeEmoji: '\ud83d\udfe0'
     }
 ]

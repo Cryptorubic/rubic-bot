@@ -21,3 +21,5 @@ INSTANT_TRADE_CHAT_ID=<telegram-chat-id>
 
 4. Run `pm2 start npm -- run start-prod` to run pm2 daemon
 
+5. To stop daemon run `pm2 stop all`
+
