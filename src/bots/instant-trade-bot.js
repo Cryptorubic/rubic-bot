@@ -22,10 +22,10 @@ class InstantTradeBot extends Bot {
         const priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
         let providerEmoji = this.oneInchEmoji;
 
-        if (provider === 'UniSwap') {
+        if (provider === 'Uniswap') {
             providerEmoji = this.uniSwapEmoji;
         } else {
-            provider = 'OneInch';
+            provider = 'Oneinch';
         }
 
         const message = `
