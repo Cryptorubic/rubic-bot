@@ -4,7 +4,8 @@ import Bot from './bot';
 class InstantTradeBot extends Bot {
 
     uniSwapEmoji = '\ud83e\udd84';
-    oneInchEmoji = '\ud83d\udc34'
+    oneInchEmoji = '\ud83d\udc34';
+    pancakeEmoji = '\ud83e\udd5e';
 
     chatId = process.env.INSTANT_TRADE_CHAT_ID;
 
@@ -22,10 +23,16 @@ class InstantTradeBot extends Bot {
         const priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
         let providerEmoji = this.oneInchEmoji;
 
-        if (provider.toLowerCase() === 'uniswap') {
-            providerEmoji = this.uniSwapEmoji;
-        } else {
-            provider = 'Oneinch';
+        switch (provider.toLowerCase()) {
+            case 'uniswap':
+                providerEmoji = this.uniSwapEmoji;
+                break;
+            case '1inch':
+                providerEmoji = this.oneInchEmoji;
+                break;
+            case 'pancakeswap':
+                providerEmoji = this.pancakeEmoji;
+                break;
         }
 
         const message = `
