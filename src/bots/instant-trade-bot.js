@@ -6,6 +6,7 @@ class InstantTradeBot extends Bot {
     uniSwapEmoji = '\ud83e\udd84';
     oneInchEmoji = '\ud83d\udc34';
     pancakeEmoji = '\ud83e\udd5e';
+    quickSwapEmoji = '\ud83d\udc32'
 
     chatId = process.env.INSTANT_TRADE_CHAT_ID;
 
@@ -32,6 +33,9 @@ class InstantTradeBot extends Bot {
                 break;
             case 'pancakeswap':
                 providerEmoji = this.pancakeEmoji;
+                break;
+            case 'quickswap':
+                providerEmoji = this.quickSwapEmoji;
                 break;
         }
 

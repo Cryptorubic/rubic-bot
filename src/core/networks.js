@@ -15,10 +15,10 @@ export default [
         bridgeEmoji: '\ud83d\udfe0'
     },
     {
-        name: 'MATIC',
+        name: 'MAT',
         label: 'Matic chain',
-        scannerAddressBaseUrl: 'https://bscscan.com/address/',
-        scannerTxBaseUrl: 'https://bscscan.com/tx/',
-        bridgeEmoji: '\ud83d\udfe0'
+        scannerAddressBaseUrl: 'https://explorer-mainnet.maticvigil.com/address/',
+        scannerTxBaseUrl: 'https://explorer-mainnet.maticvigil.com/tx/',
+        bridgeEmoji: '\ud83d\udfe3'
     }
 ]
