@@ -3,6 +3,12 @@ import Bot from './bot';
 
 class BridgeBot extends Bot {
 
+    providersEmojis = {
+        Rubic: '\ud83d\udfe2',
+        Binance: '\ud83d\udfe0',
+        Polygon: '\ud83d\udfe3'
+    }
+
     chatId = process.env.BRIDGE_CHAT_ID;
 
     constructor(bot) {
@@ -10,10 +16,27 @@ class BridgeBot extends Bot {
     }
 
     async sendNotification(request) {
-        const { binanceId, walletAddress, amount, network, symbol, ethSymbol } = request;
-        const fromNetwork = networks.find(nw => nw.name === network);
-        const toNetwork = networks.find(nw => nw.name !== network);
-        const scannerUrl = networks.find(nw => nw.name === network).scannerAddressBaseUrl + walletAddress;
+        const { track, walletAddress, amount, fromBlockchain, toBlockchain, symbol, ethSymbol } = request;
+        const fromNetwork = networks.find(nw => nw.name === fromBlockchain);
+        const toNetwork = networks.find(nw => nw.name === toBlockchain);
+        const scannerUrl = networks.find(nw => nw.name === fromBlockchain).scannerAddressBaseUrl + walletAddress;
+
+        const trackUrl = fromBlockchain === 'BSC' || toBlockchain === 'BSC' ?
+            `https://api.binance.org/bridge/api/v2/swaps/${track}` :
+            networks.find(nw => nw.name === fromBlockchain).scannerTxBaseUrl + track;
+
+        let emoji;
+        switch (true) {
+            case symbol === 'RBC' && fromBlockchain === 'BSC' || toBlockchain === 'BSC':
+                emoji = this.providersEmojis.Rubic;
+                break;
+            case fromBlockchain === 'BSC' || toBlockchain === 'BSC':
+                emoji = this.providersEmojis.Binance;
+                break;
+            case fromBlockchain === 'POL' || toBlockchain === 'POL':
+                emoji = this.providersEmojis.Polygon;
+                break;
+        }
 
         const priceInfo = await coinGeckoApi.getAllPrices(ethSymbol.toLowerCase());
 
@@ -21,7 +44,7 @@ class BridgeBot extends Bot {
 New bridge cross-chain swap was created by
 <a href="${scannerUrl}">\ud83d\udcf6 ${walletAddress}</a> 
 
-${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amount, fromNetwork) : ''}
+${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amount, emoji) : ''}
 
 <code>${fromNetwork.label} -> ${toNetwork.label}</code>
 <b>${amount}</b> ${symbol}
@@ -34,15 +57,15 @@ ${priceInfo.ethPrice ?
     'Can\'t find ETH price for token ' + ethSymbol
 }
 
-<a href="https://api.binance.org/bridge/api/v2/swaps/${binanceId}">\ud83d\udcb4 More info</a>
+<a href="${trackUrl}">\ud83d\udcb4 More info</a>
         `;
 
         return this.sendMessage(this.chatId, message);
     }
 
-    getFormattedBullets(ethValue, network) {
+    getFormattedBullets(ethValue, emoji) {
         const bulletsNumber = Math.floor(ethValue) + 1;
-        return network.bridgeEmoji.repeat(bulletsNumber);
+        return emoji.repeat(bulletsNumber);
     }
 }
 

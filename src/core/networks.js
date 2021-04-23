@@ -15,7 +15,7 @@ export default [
         bridgeEmoji: '\ud83d\udfe0'
     },
     {
-        name: 'MAT',
+        name: 'POL',
         label: 'Matic chain',
         scannerAddressBaseUrl: 'https://explorer-mainnet.maticvigil.com/address/',
         scannerTxBaseUrl: 'https://explorer-mainnet.maticvigil.com/tx/',
