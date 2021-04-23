@@ -33,7 +33,7 @@ class BridgeBot extends Bot {
             case fromBlockchain === 'BSC' || toBlockchain === 'BSC':
                 emoji = this.providersEmojis.Binance;
                 break;
-            case fromBlockchain === 'POL' || toBlockchain === 'POL':
+            case fromBlockchain === 'POLYGON' || toBlockchain === 'POLYGON':
                 emoji = this.providersEmojis.Polygon;
                 break;
         }
