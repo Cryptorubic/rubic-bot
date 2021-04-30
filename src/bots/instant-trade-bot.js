@@ -15,13 +15,23 @@ class InstantTradeBot extends Bot {
     }
 
     async sendNotification(request) {
-        let { blockchain, provider, walletAddress, txHash, amountFrom, amountTo, symbolFrom, symbolTo } = request;
+        let { blockchain, provider, walletAddress, txHash, amountFrom, amountTo, symbolFrom, symbolTo, tokenFromUsdPrice } = request;
         blockchain ||= 'ETH';
         const network = networks.find(nw => nw.name === blockchain);
         const scannerAddressUrl = network.scannerAddressBaseUrl + walletAddress;
         const scannerTxUrl = network.scannerTxBaseUrl + txHash;
 
-        const priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
+        let priceInfo;
+        if (tokenFromUsdPrice) {
+            const usdPriceInEther = await coinGeckoApi.getUsdPriceInEther();
+            priceInfo = {
+                usdPrice: tokenFromUsdPrice,
+                ethPrice: tokenFromUsdPrice * usdPriceInEther
+            }
+        } else {
+            priceInfo = await coinGeckoApi.getAllPrices(symbolFrom.toLowerCase());
+        }
+
         let providerEmoji = this.oneInchEmoji;
 
         switch (provider.toLowerCase()) {

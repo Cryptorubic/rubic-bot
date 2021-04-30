@@ -16,7 +16,7 @@ class BridgeBot extends Bot {
     }
 
     async sendNotification(request) {
-        const { track, walletAddress, amount, fromBlockchain, toBlockchain, symbol, ethSymbol } = request;
+        const { track, walletAddress, amount, fromBlockchain, toBlockchain, symbol, ethSymbol, price } = request;
         const fromNetwork = networks.find(nw => nw.name === fromBlockchain);
         const toNetwork = networks.find(nw => nw.name === toBlockchain);
         const scannerUrl = networks.find(nw => nw.name === fromBlockchain).scannerAddressBaseUrl + walletAddress;
@@ -38,7 +38,16 @@ class BridgeBot extends Bot {
                 break;
         }
 
-        const priceInfo = await coinGeckoApi.getAllPrices(ethSymbol.toLowerCase());
+        let priceInfo;
+        if (price) {
+            const usdPriceInEther = await coinGeckoApi.getUsdPriceInEther();
+            priceInfo = {
+                usdPrice: price,
+                ethPrice: price * usdPriceInEther
+            }
+        } else {
+            priceInfo = await coinGeckoApi.getAllPrices(ethSymbol.toLowerCase());
+        }
 
         const message = `
 New bridge cross-chain swap was created by

@@ -33,5 +33,11 @@ export default {
     },
     async getTokenETHPrice(tokenSymbol) {
         return this.getTokenPrice(tokenSymbol, 'eth');
+    },
+    async getEtherPriceInUsd() {
+        return this.getTokenUSDPrice( 'eth');
+    },
+    async getUsdPriceInEther() {
+        return this.getTokenETHPrice( 'usd');
     }
 }
