@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  bot:
+    image: rubic-bot
+    container_name: rubic-bot
+    build:
+      context: .
+      dockerfile: docker/bot.Dockerfile
+    restart: always
+    command: pm2-runtime start npm -- run start-prod
