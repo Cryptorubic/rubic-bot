@@ -9,3 +9,5 @@ services:
       dockerfile: docker/bot.Dockerfile
     restart: always
     command: pm2-runtime start npm -- run start-prod
+    expose:
+      - 8002
