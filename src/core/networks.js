@@ -20,5 +20,12 @@ export default [
         scannerAddressBaseUrl: 'https://explorer-mainnet.maticvigil.com/address/',
         scannerTxBaseUrl: 'https://explorer-mainnet.maticvigil.com/tx/',
         bridgeEmoji: '\ud83d\udfe3'
+    },
+    {
+        name: 'TRX',
+        label: 'Tron',
+        scannerAddressBaseUrl: 'https://tronscan.org/#/address/',
+        scannerTxBaseUrl: 'https://tronscan.org/#/transaction/',
+        bridgeEmoji: '\ud83d\udd34'
     }
 ]

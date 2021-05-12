@@ -6,7 +6,8 @@ class BridgeBot extends Bot {
     providersEmojis = {
         Rubic: '\ud83d\udfe2',
         Binance: '\ud83d\udfe0',
-        Polygon: '\ud83d\udfe3'
+        Polygon: '\ud83d\udfe3',
+        Tron: '\ud83d\udd34'
     }
 
     chatId = process.env.BRIDGE_CHAT_ID;
@@ -16,7 +17,7 @@ class BridgeBot extends Bot {
     }
 
     async sendNotification(request) {
-        const { track, walletAddress, amount, fromBlockchain, toBlockchain, symbol, ethSymbol, price } = request;
+        const { track, walletAddress, amount, fromBlockchain, toBlockchain, symbol, price } = request;
         const fromNetwork = networks.find(nw => nw.name === fromBlockchain);
         const toNetwork = networks.find(nw => nw.name === toBlockchain);
         const scannerUrl = networks.find(nw => nw.name === fromBlockchain).scannerAddressBaseUrl + walletAddress;
@@ -27,6 +28,9 @@ class BridgeBot extends Bot {
 
         let emoji;
         switch (true) {
+            case toBlockchain === 'TRX':
+                emoji = this.providersEmojis.Tron;
+                break;
             case symbol === 'RBC' && fromBlockchain === 'BSC' || toBlockchain === 'BSC':
                 emoji = this.providersEmojis.Rubic;
                 break;
@@ -46,7 +50,7 @@ class BridgeBot extends Bot {
                 ethPrice: price * usdPriceInEther
             }
         } else {
-            priceInfo = await coinGeckoApi.getAllPrices(ethSymbol.toLowerCase());
+            priceInfo = await coinGeckoApi.getAllPrices(symbol.toLowerCase());
         }
 
         const message = `
@@ -59,11 +63,11 @@ ${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amount, emo
 <b>${amount}</b> ${symbol}
 ${priceInfo.usdPrice ?
 'USD amount: ~' + '<b>' + priceInfo.usdPrice * amount + '</b>' + '$' :
-    'Can\'t find USD price for token ' + ethSymbol
+    'Can\'t find USD price for token ' + symbol
 }
 ${priceInfo.ethPrice ?
     'ETH amount: ~' + '<b>' + priceInfo.ethPrice * amount + '</b>' :
-    'Can\'t find ETH price for token ' + ethSymbol
+    'Can\'t find ETH price for token ' + symbol
 }
 
 <a href="${trackUrl}">\ud83d\udcb4 More info</a>
