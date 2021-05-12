@@ -8,6 +8,6 @@ services:
       context: .
       dockerfile: docker/bot.Dockerfile
     restart: always
-    command: pm2-runtime start npm -- run start-prod
+    command: pm2-runtime start npm -- run start-in-port
     expose:
       - 8002

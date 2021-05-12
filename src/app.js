@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 Routes(app);
 
 
-const port = process.env.NODE_ENV === 'development' ? 8080 : 80;
+const port = process.env.BOT_PORT || (process.env.NODE_ENV === 'development' ? 8080 : 80);
 
 app.listen(port, () => {
     console.log(`Server runs on ${port} port`);
