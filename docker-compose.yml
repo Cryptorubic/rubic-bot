@@ -1,5 +1,9 @@
 version: "3.7"
 
+networks:
+  rubic_exchange_backend_default:
+    external: true
+
 services:
   bot:
     image: rubic-bot
@@ -11,3 +15,5 @@ services:
     command: pm2-runtime start npm -- run start-in-port
     expose:
       - 8002
+    networks:
+      - rubic_exchange_backend_default
