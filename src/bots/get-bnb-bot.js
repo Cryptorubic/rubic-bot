@@ -20,34 +20,35 @@ class GetBnbBot extends Bot {
     }
 
     async sendNotification(request) {
-        const { transactionHash, walletAddress, amount, toBlockchain, symbol, price } = request;
+        const { transactionHash, walletAddress, fromAmount, toAmount, toBlockchain, fromTokenSymbol, fromTokenPrice } = request;
         const scannerUrl = networks[0].scannerAddressBaseUrl + walletAddress;
         const trackUrl = networks[0].scannerTxBaseUrl + transactionHash;
 
        const emoji = toBlockchain === 'BSC' ? this.providersEmojis.Binance : this.providersEmojis.Polygon;
 
         let priceInfo;
-        if (price) {
+        if (fromTokenPrice) {
             const usdPriceInEther = await coinGeckoApi.getUsdPriceInEther();
             priceInfo = {
-                usdPrice: price,
-                ethPrice: price * usdPriceInEther
+                usdPrice: fromTokenPrice,
+                ethPrice: fromTokenPrice * usdPriceInEther
             }
         } else {
-            priceInfo = await coinGeckoApi.getAllPrices(symbol.toLowerCase());
+            priceInfo = await coinGeckoApi.getAllPrices(fromTokenSymbol.toLowerCase());
         }
 
         const message = `
 New get BNB request was created by
 <a href="${scannerUrl}">\ud83d\udcf6 ${walletAddress}</a> 
 
-${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * amount, emoji) : ''} <code>ETH -> ${toBlockchain}</code>
+${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * fromAmount, emoji) : ''} <code>ETH -> ${toBlockchain}</code>
 
-${this.payTokenEmojis[symbol]} paid in <b>${amount}</b> ${symbol}
+${this.payTokenEmojis[fromTokenSymbol]} paid in <b>${fromAmount}</b> ${fromTokenSymbol}
+about ${toAmount} BNB will be received 
  
 ${priceInfo.usdPrice ?
-            'USD amount: ~' + '<b>' + priceInfo.usdPrice * amount + '</b>' + '$' :
-            'Can\'t find USD price for token ' + symbol
+            'USD amount: ~' + '<b>' + priceInfo.usdPrice * fromAmount + '</b>' + '$' :
+            'Can\'t find USD price for token ' + fromAmount
         }
 
 <a href="${trackUrl}">\ud83d\udcb4 More info</a>
