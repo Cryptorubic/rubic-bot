@@ -1,8 +1,12 @@
-import {bridgeBot, instantTradesBot, orderBookContributionBot, orderBookCreationBot} from "../bots";
+import {bridgeBot, getBnbBot, instantTradesBot, orderBookContributionBot, orderBookCreationBot} from "../bots";
 
 export default app => {
     app.post('/bridgeSwap', async (req, res) => {
         activateBot(bridgeBot, req.body, res);
+    });
+
+    app.post('/getBnb', async (req, res) => {
+        activateBot(getBnbBot, req.body, res);
     });
 
     app.post('/instantTrade', async (req, res) => {

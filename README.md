@@ -11,6 +11,7 @@ yarn version > 1.22.10
 ```
 BRIDGE_BOT_TOKEN=<telegram-bot-token>
 BRIDGE_CHAT_ID=<telegram-chat-id>
+GET_BNB_CHAT_ID=<telegram-chat-id>
 INSTANT_TRADE_BOT_TOKEN=<telegram-bot-token>
 INSTANT_TRADE_CHAT_ID=<telegram-chat-id>
 ORDER_BOOK_BOT_TOKEN=<telegram-bot-token>
