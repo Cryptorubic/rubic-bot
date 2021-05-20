@@ -31,7 +31,7 @@ class BridgeBot extends Bot {
             case toBlockchain === 'TRX':
                 emoji = this.providersEmojis.Tron;
                 break;
-            case symbol === 'RBC' && fromBlockchain === 'BSC' || toBlockchain === 'BSC':
+            case symbol === 'RBC' && (fromBlockchain === 'BSC' || toBlockchain === 'BSC'):
                 emoji = this.providersEmojis.Rubic;
                 break;
             case fromBlockchain === 'BSC' || toBlockchain === 'BSC':
