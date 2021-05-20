@@ -1,0 +1,19 @@
+version: "3.7"
+
+networks:
+  rubic_exchange_backend_default:
+    external: true
+
+services:
+  bot:
+    image: rubic-bot
+    container_name: rubic-bot
+    build:
+      context: .
+      dockerfile: docker/bot.Dockerfile
+    restart: always
+    command: pm2-runtime start npm -- run start-in-port
+    expose:
+      - 8002
+    networks:
+      - rubic_exchange_backend_default

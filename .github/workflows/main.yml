@@ -1,0 +1,28 @@
+name: Master branch
+
+# This action works on push
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy on production server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on prod server
+        uses: matheusvanzan/sshpass-action@v2
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          user: ${{ secrets.SERVER_USER }}
+          pass: ${{ secrets.SERVER_PASS }}
+          run: |
+            cd /var/www/rubic_exchange/rubic-bot
+
+            echo "########################Run git pull#########################"
+            echo ${{ secrets.SERVER_PASS }} | sudo -S git pull
+
+            echo "########################Run docker build#########################"
+            echo ${{ secrets.SERVER_PASS }} | sudo -S docker-compose up --build -d --no-deps
