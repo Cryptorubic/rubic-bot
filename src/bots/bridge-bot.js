@@ -7,7 +7,8 @@ class BridgeBot extends Bot {
         Rubic: '\ud83d\udfe2',
         Binance: '\ud83d\udfe0',
         Polygon: '\ud83d\udfe3',
-        Tron: '\ud83d\udd34'
+        Tron: '\ud83d\udd34',
+        XDai: '\ud83d\udfe1'
     }
 
     chatId = process.env.BRIDGE_CHAT_ID;
@@ -28,6 +29,9 @@ class BridgeBot extends Bot {
 
         let emoji;
         switch (true) {
+            case toBlockchain === 'XDAI':
+                emoji = this.providersEmojis.XDai;
+                break;
             case toBlockchain === 'TRX':
                 emoji = this.providersEmojis.Tron;
                 break;

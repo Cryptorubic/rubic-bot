@@ -27,5 +27,12 @@ export default [
         scannerAddressBaseUrl: 'https://tronscan.org/#/address/',
         scannerTxBaseUrl: 'https://tronscan.org/#/transaction/',
         bridgeEmoji: '\ud83d\udd34'
+    },
+    {
+        name: 'XDAI',
+        label: 'xDai',
+        scannerAddressBaseUrl: 'https://tronscan.org/#/address/',
+        scannerTxBaseUrl: 'https://tronscan.org/#/transaction/',
+        bridgeEmoji: '\ud83d\udfe1'
     }
 ]
