@@ -1,12 +1,17 @@
-import {bridgeBot, getBnbBot, instantTradesBot, orderBookContributionBot, orderBookCreationBot} from "../bots";
+import {bridgeBot, cryptoTapBot, instantTradesBot, orderBookContributionBot, orderBookCreationBot} from "../bots";
 
 export default app => {
     app.post('/bridgeSwap', async (req, res) => {
         activateBot(bridgeBot, req.body, res);
     });
 
+    app.post('/cryptoTap', async (req, res) => {
+        activateBot(cryptoTapBot, req.body, res);
+    });
+
+    // TODO: удалить после релиза MATIC crypto tap
     app.post('/getBnb', async (req, res) => {
-        activateBot(getBnbBot, req.body, res);
+        activateBot(cryptoTapBot, req.body, res);
     });
 
     app.post('/instantTrade', async (req, res) => {

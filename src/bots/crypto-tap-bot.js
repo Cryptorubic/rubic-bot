@@ -1,7 +1,7 @@
 import { networks, coinGeckoApi} from "../core";
 import Bot from './bot';
 
-class GetBnbBot extends Bot {
+class CryptoTapBot extends Bot {
 
     providersEmojis = {
         Binance: '\ud83d\udfe0',
@@ -25,6 +25,7 @@ class GetBnbBot extends Bot {
         const trackUrl = networks[0].scannerTxBaseUrl + transactionHash;
 
        const emoji = toBlockchain === 'BSC' ? this.providersEmojis.Binance : this.providersEmojis.Polygon;
+       const toCurrency = toBlockchain === 'BSC' ? 'BNB' : 'MATIC';
 
         let priceInfo;
         if (fromTokenPrice) {
@@ -38,13 +39,13 @@ class GetBnbBot extends Bot {
         }
 
         const message = `
-New get BNB request was created by
+New get ${toCurrency} request was created by
 <a href="${scannerUrl}">\ud83d\udcf6 ${walletAddress}</a> 
 
 ${priceInfo.ethPrice ? this.getFormattedBullets(priceInfo.ethPrice * fromAmount, emoji) : ''} <code>ETH -> ${toBlockchain}</code>
 
 ${this.payTokenEmojis[fromTokenSymbol]} paid in <b>${fromAmount}</b> ${fromTokenSymbol}
-about ${toAmount} BNB will be received 
+about ${toAmount} ${toCurrency} will be received 
  
 ${priceInfo.usdPrice ?
             'USD amount: ~' + '<b>' + priceInfo.usdPrice * fromAmount + '</b>' + '$' :
@@ -63,4 +64,4 @@ ${priceInfo.usdPrice ?
     }
 }
 
-export default GetBnbBot;
+export default CryptoTapBot;
